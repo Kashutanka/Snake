@@ -1,5 +1,6 @@
 const kletka = document.getElementById('Snake')
 const ctx = kletka.getContext('2d')
+const pausedBtn = document.getElementById('paused')
 
 const size = 20;
 const width = kletka.width
@@ -45,12 +46,68 @@ function drawSnake() {
     }
 }
 
-function gameLoop() {
-    ctx.clearRect(0, 0, kletka.width, kletka.height); // очистить экран
-    drawGrid();    // рисуем сетку
-    drawSnake();   // рисуем змейку
-    requestAnimationFrame(gameLoop);
+let dx = 1; // движение по x: 1 клетка вправо
+let dy = 0; // пока не двигаемся по y
+
+function moveSnake() {
+    // Берём голову змейки
+    const head = snake[0];
+    const newHead = {
+        x: head.x + dx,
+        y: head.y + dy
+    };
+
+    snake.unshift(newHead);   // добавляем новую голову
+    snake.pop();              // удаляем хвост (последний элемент)
 }
+
+document.addEventListener("keydown", changeDirection);
+
+function changeDirection(event) {
+    const key = event.key;
+
+    if (key === 'W' || key === 'w' || key === "ArrowUp" && dy !== 1) {
+        dx = 0;
+        dy = -1;
+    } else if (key === 'S' || key === 's' || key === "ArrowDown" && dy !== -1) {
+        dx = 0;
+        dy = 1;
+    } else if (key === 'A' || key === 'a' || key === "ArrowLeft" && dx !== 1) {
+        dx = -1;
+        dy = 0;
+    } else if (key === 'D' || key === 'd' || key === "ArrowRight" && dx !== -1) {
+        dx = 1;
+        dy = 0;
+    }
+}
+
+function setDirection(newDx, newDy) {
+    if (newDx === -dx && newDy === -dy) {
+        return; // не даём змейке развернуться назад
+    }
+
+    dx = newDx;
+    dy = newDy;
+}
+
+let paused = false;
+
+function togglePause() {
+    paused = !paused;
+}
+
+function gameLoop() {
+    if (!paused) {
+        moveSnake(); // двигаем только если не пауза
+    }
+
+    ctx.clearRect(0, 0, kletka.width, kletka.height);
+    drawGrid();
+    drawSnake();
+
+    setTimeout(gameLoop, 150);
+}
+
 
 gameLoop();
 
