@@ -2,10 +2,13 @@ const kletka = document.getElementById('Snake')
 const ctx = kletka.getContext('2d')
 const pausedBtn = document.getElementById('paused')
 
-const size = 20;
+const size = 20; //размер клетки
 const width = kletka.width
 const height = kletka.height
 
+let score = 0
+
+//Рисуем саму сетку
 function drawGrid() {
     // Цвет линий
     ctx.strokeStyle = "red";
@@ -28,16 +31,22 @@ function drawGrid() {
 }
 drawGrid();
 
-const gridSize = kletka.width / size;
+let food = {
+    x: Math.floor(Math.random() * 20),
+    y: Math.floor(Math.random() * 20)
+}
 
-const x = Math.floor(Math.random() * (gridSize - 2)) + 2;
-const y = Math.floor(Math.random() * gridSize);
+function drawFood() {
+    ctx.fillStyle = "yellow";
+    ctx.fillRect(food.x * size, food.y * size, size, size)
+}
 
-let snake = [
-    { x: x, y: y },
-    { x: x - 1, y: y },
-    { x: x - 2, y: y }
-];
+let snake = [];
+
+snake[0] = {
+    x: Math.floor(kletka.width / size / 2),
+    y: Math.floor(kletka.height / size / 2)
+}
 
 function drawSnake() {
     ctx.fillStyle = "green";
@@ -46,8 +55,8 @@ function drawSnake() {
     }
 }
 
-let dx = 1; // движение по x: 1 клетка вправо
-let dy = 0; // пока не двигаемся по y
+let dx = 0;
+let dy = 0;
 
 function moveSnake() {
     // Берём голову змейки
@@ -57,8 +66,8 @@ function moveSnake() {
         y: head.y + dy
     };
 
-    snake.unshift(newHead);   // добавляем новую голову
     snake.pop();              // удаляем хвост (последний элемент)
+    snake.unshift(newHead);   // добавляем новую голову
 }
 
 document.addEventListener("keydown", changeDirection);
@@ -104,10 +113,9 @@ function gameLoop() {
     ctx.clearRect(0, 0, kletka.width, kletka.height);
     drawGrid();
     drawSnake();
-
+    drawFood()
     setTimeout(gameLoop, 150);
 }
-
 
 gameLoop();
 
