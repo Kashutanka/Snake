@@ -1,121 +1,81 @@
-const kletka = document.getElementById('Snake')
-const ctx = kletka.getContext('2d')
-const pausedBtn = document.getElementById('paused')
+const kletka = document.getElementById('Snake');
+const ctx = kletka.getContext('2d');
 
-const size = 20; //размер клетки
-const width = kletka.width
-const height = kletka.height
+const ground = new Image();
+ground.src = "img/ground.png";
 
-let score = 0
+const foodImg = new Image();
+foodImg.src = "img/food.png";
 
-//Рисуем саму сетку
-function drawGrid() {
-    // Цвет линий
-    ctx.strokeStyle = "red";
-
-    // Горизонтальные линии
-    for (let y = 0; y <= height; y += size) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(width, y);
-        ctx.stroke();
-    }
-
-    // Вертикальные линии
-    for (let x = 0; x <= width; x += size) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, height);
-        ctx.stroke();
-    }
-}
-drawGrid();
+let box = 32;
+let score = 0;
 
 let food = {
-    x: Math.floor(Math.random() * 20),
-    y: Math.floor(Math.random() * 20)
-}
-
-function drawFood() {
-    ctx.fillStyle = "yellow";
-    ctx.fillRect(food.x * size, food.y * size, size, size)
-}
+    x: Math.floor(Math.random() * 17 + 1) * box,
+    y: Math.floor(Math.random() * 15 + 3) * box
+};
 
 let snake = [];
-
 snake[0] = {
-    x: Math.floor(kletka.width / size / 2),
-    y: Math.floor(kletka.height / size / 2)
-}
+    x: 9 * box,
+    y: 10 * box
+};
 
-function drawSnake() {
-    ctx.fillStyle = "green";
-    for (let part of snake) {
-        ctx.fillRect(part.x * size, part.y * size, size, size);
-    }
-}
+document.addEventListener('keydown', direction);
 
-let dx = 0;
-let dy = 0;
+let dir;
 
-function moveSnake() {
-    // Берём голову змейки
-    const head = snake[0];
-    const newHead = {
-        x: head.x + dx,
-        y: head.y + dy
+function direction(event) {
+    if (event.keyCode == 37 && dir != 'right') dir = 'left';
+    if (event.keyCode == 38 && dir != 'down') dir = 'up';
+    if (event.keyCode == 39 && dir != 'left') dir = 'right';
+    if (event.keyCode == 40 && dir != 'up') dir = 'down';
+};
+
+function eatTail(head, arr) {
+    for (let i = 0; i < arr.length; i++) {
+        if (head.x == arr[i].x && head.y == arr[i].y) clearInterval(game);
+    };
+};
+
+function drawGame() {
+    ctx.drawImage(ground, 0, 0);
+
+    ctx.drawImage(foodImg, food.x, food.y);
+
+    for (let i = 0; i < snake.length; i++) {
+        ctx.fillStyle = i % 2 == 0 ? "green" : "blue";
+        ctx.fillRect(snake[i].x, snake[i].y, box, box);
     };
 
-    snake.pop();              // удаляем хвост (последний элемент)
-    snake.unshift(newHead);   // добавляем новую голову
-}
+    ctx.fillStyle = 'white';
+    ctx.font = "50px Arial";
+    ctx.fillText(score, box * 2.5, box * 1.7);
 
-document.addEventListener("keydown", changeDirection);
+    let snakeX = snake[0].x;
+    let snakeY = snake[0].y;
 
-function changeDirection(event) {
-    const key = event.key;
+    if (snake[0].x == food.x && snake[0].y == food.y) {
+        score++;
+        food.x = Math.floor(Math.random() * 17 + 1) * box;
+        food.y = Math.floor(Math.random() * 15 + 3) * box;
+    } else snake.pop();
 
-    if (key === 'W' || key === 'w' || key === "ArrowUp" && dy !== 1) {
-        dx = 0;
-        dy = -1;
-    } else if (key === 'S' || key === 's' || key === "ArrowDown" && dy !== -1) {
-        dx = 0;
-        dy = 1;
-    } else if (key === 'A' || key === 'a' || key === "ArrowLeft" && dx !== 1) {
-        dx = -1;
-        dy = 0;
-    } else if (key === 'D' || key === 'd' || key === "ArrowRight" && dx !== -1) {
-        dx = 1;
-        dy = 0;
-    }
-}
+    if (snakeX < box || snakeX > box * 17 || snakeY < box * 3 || snakeY > box * 17) clearInterval(game);
 
-function setDirection(newDx, newDy) {
-    if (newDx === -dx && newDy === -dy) {
-        return; // не даём змейке развернуться назад
-    }
+    if (dir == 'left') snakeX -= box;
+    if (dir == 'right') snakeX += box;
+    if (dir == 'up') snakeY -= box;
+    if (dir == 'down') snakeY += box;
 
-    dx = newDx;
-    dy = newDy;
-}
+    let newHead = {
+        x: snakeX,
+        y: snakeY
+    };
 
-let paused = false;
+    eatTail(newHead, snake);
 
-function togglePause() {
-    paused = !paused;
-}
+    snake.unshift(newHead);
+};
 
-function gameLoop() {
-    if (!paused) {
-        moveSnake(); // двигаем только если не пауза
-    }
-
-    ctx.clearRect(0, 0, kletka.width, kletka.height);
-    drawGrid();
-    drawSnake();
-    drawFood()
-    setTimeout(gameLoop, 150);
-}
-
-gameLoop();
-
+let game = setInterval(drawGame, 200);
