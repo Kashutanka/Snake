@@ -1,5 +1,79 @@
-.full {
+:root {
+    -main: #144435;
+    -dr-main: #103529;
+    -text: #e8dfd6;
+    -highlight: #79ccdd;
+    -object: #68aa8c;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #144435;
+    color: #e8dfd6;
+    margin: 0;
+    user-select: none;
+    /* Стандартное */
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE/Edge */
+}
+
+body::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Edge, Safari */
+}
+
+header {
+    color: #68aa8c;
+    text-align: center;
+    background-color: #103529;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+}
+
+
+footer{
+    background-color: #103529;
+    padding: 1rem;
+    color: #68aa8c;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+pre {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #68aa8c5e;
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 2px dashed #68aa8c;
+    margin: 2rem;
+}
+
+.game {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+canvas {
+    border-radius: 1rem;
+}
+
+#gameOver {
+    text-align: center;
+    background-color: #79ccdd5e;
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 2px dashed #79ccdd;
+    width: 600px;
+    display: none;
+}
+
+#gameOver button{
+    color: #e8dfd6;
+    background-color: #79ccdd5e;
+    border: none;
+    border-radius: 1rem;
+    font-size: 0.88rem;
 }

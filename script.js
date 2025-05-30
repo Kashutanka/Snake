@@ -1,3 +1,4 @@
+const gameOver = document.getElementById('gameOver')
 const kletka = document.getElementById('Snake');
 const ctx = kletka.getContext('2d');
 
@@ -34,7 +35,10 @@ function direction(event) {
 
 function eatTail(head, arr) {
     for (let i = 0; i < arr.length; i++) {
-        if (head.x == arr[i].x && head.y == arr[i].y) clearInterval(game);
+        if (head.x == arr[i].x && head.y == arr[i].y) {
+            clearInterval(game);
+            gameOver.style.display = 'block';
+        }
     };
 };
 
@@ -61,7 +65,10 @@ function drawGame() {
         food.y = Math.floor(Math.random() * 15 + 3) * box;
     } else snake.pop();
 
-    if (snakeX < box || snakeX > box * 17 || snakeY < box * 3 || snakeY > box * 17) clearInterval(game);
+    if (snakeX < box || snakeX > box * 17 || snakeY < box * 3 || snakeY > box * 17) {
+        clearInterval(game);
+        gameOver.style.display = 'block';
+    }
 
     if (dir == 'left') snakeX -= box;
     if (dir == 'right') snakeX += box;
@@ -78,4 +85,4 @@ function drawGame() {
     snake.unshift(newHead);
 };
 
-let game = setInterval(drawGame, 200);
+let game = setInterval(drawGame, 100);
