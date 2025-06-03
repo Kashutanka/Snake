@@ -33,17 +33,19 @@
 
         header {
             text-align: center;
-            background-color: #1b173173;
-            padding: 0.5rem;
+            background-color: #1b173183;
+            padding: 0.5rem 1rem 0 1rem;
             font-size: 1.5rem;
             color: #a8c9ed;
             text-shadow: 4px 4px 20px rgba(0, 0, 0, 0.295);
+            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.295);
         }
 
         #arkanoid {
             background-color: #675ba796;
             display: block;
             margin: 0 auto;
+            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.295);
         }
 
         footer {
@@ -52,6 +54,7 @@
             text-align: center;
             margin-top: 2rem;
             color: #a8c9ed;
+            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.295);
         }
 
         pre {
@@ -96,21 +99,46 @@
             border-radius: 1rem;
             font-size: 0.88rem;
         }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        a {
+            font-size: 1.2rem;
+            text-decoration: none;
+            background-color: #1b1731e3;
+            padding: 10px;
+            border-radius: 1rem 1rem 0 0;
+            color: #a8c9ed;
+            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.295);
+        }
+        a:hover{
+            background-color: #1b1731;
+            color: #fe7787;
+            text-decoration: underline;
+        }
     </style>
 </head>
 
 <body>
     <header>
         <h1>Арканоид</h1>
+        <nav>
+            <a href="index.html">Змейка</a>
+            <a href="arkanoid.html">Арканоид</a>
+        </nav>
     </header>
     <div class="game">
         <pre>
+🎮 Добро пожаловать в Арканоид!
 Управляй платформой, отбивай шарик и разрушай кирпичи.
 
 🕹 Управление:
 Двигай платформу влево и вправо при помощи мыши
 Пробел — начать игру
-
 Сколько блоков сможешь разбить ты?</pre>
         <canvas id="arkanoid" width="480" height="320"></canvas>
         <p id="gameWin">Вы победили! Нажмите <button onclick="location.reload()">сюда</button> если хотите сыграть еще

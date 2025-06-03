@@ -35,9 +35,11 @@
         header {
             color: #68aa8c;
             text-align: center;
-            background-color: #103529;
-            padding: 0.5rem;
+            background-color: #0b251d93;
+            padding: 0.5rem 1rem 0 1rem;
             font-size: 1.5rem;
+            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.295);
+            text-shadow: 4px 4px 20px rgba(0, 0, 0, 0.295);
         }
 
 
@@ -47,6 +49,7 @@
             color: #68aa8c;
             text-align: center;
             margin-top: 2rem;
+            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.295);
         }
 
         pre {
@@ -56,6 +59,7 @@
             border-radius: 1rem;
             border: 2px dashed #68aa8c;
             margin: 2rem;
+            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.295);
         }
 
         .game {
@@ -66,6 +70,7 @@
 
         canvas {
             border-radius: 1rem;
+            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.295);
         }
 
         #gameOver {
@@ -76,6 +81,7 @@
             border: 2px dashed #79ccdd;
             width: 600px;
             display: none;
+            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.295);
         }
 
         #gameOver button {
@@ -85,23 +91,47 @@
             border-radius: 1rem;
             font-size: 0.88rem;
         }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        a {
+            font-size: 1.2rem;
+            text-decoration: none;
+            background-color: #0b251d93;
+            padding: 10px;
+            border-radius: 1rem 1rem 0 0;
+            color: #68aa8c;
+            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.295);
+        }
+        a:hover{
+            background-color: #0b251d;
+            color: #79ccdd;
+            text-decoration: underline;
+        }
     </style>
 </head>
 
 <body>
     <header>
         <h1>Змейка</h1>
+        <nav>
+            <a href="index.html" class="hover:underline">Змейка</a>
+            <a href="arkanoid.html" class="hover:underline">Арканоид</a>
+        </nav>
     </header>
     <div class="game">
-
         <pre>
-🎮  Добро пожаловать в Классическую Змейку!
-    Управляй змейкой, поедай 'яблоки' и набирай очки. Чем длиннее змейка — тем сложнее игра!
-    Не врежься в стены и свой хвост.
+🎮 Добро пожаловать в Классическую Змейку!
+Управляй змейкой, поедай 'яблоки' и набирай очки. Чем длиннее змейка — тем сложнее игра!
+Не врежься в стены и свой хвост.
    
-    Используй стрелки на клавиатуре, чтобы двигаться.
-    Успехов и хорошей охоты! 🐍🍎</pre>
-        <canvas id="Snake" width="608" height="607.5"></canvas>
+Используй стрелки на клавиатуре, чтобы двигаться.
+Успехов и хорошей охоты! 🐍🍎</pre>
+        <canvas id="Snake" width="608" height="607"></canvas>
         <p id="gameOver">Упс, вы проиграли! Нажните <button onclick="location.reload()">сюда</button> чтобы начать
             заново</p>
     </div>
